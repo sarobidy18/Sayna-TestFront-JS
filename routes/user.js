@@ -84,11 +84,9 @@ router.put("/user/cart",[verifyToken], (req, res, next) => {
 });
 
 router.delete("/user", [verifyToken], (req, res, next) => {
-    if (!req.body.id) {
-        next(new Exception(400, "ID utilisateur manquant"))
-    }
-
-    User.deleteOne({_id: req.body.id}).exec()
+    let credential = req.app.get("credential");
+    
+    User.deleteOne({_id: credential._id}).exec()
         .then(response => {
             return res.status(200).send({
                 error: false,
