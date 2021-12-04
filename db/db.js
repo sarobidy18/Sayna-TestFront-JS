@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('config');
 
-const var_mongo = process.env.MONGODB_URI;
-// const var_mongo = config.database;
+// const var_mongo = process.env.MONGODB_URI;
+const var_mongo = config.database;
 
 module.exports = function() {
     mongoose.connect(var_mongo, {
