@@ -3,7 +3,7 @@ const Joi = require('@hapi/joi');
 
 const UserCart = mongoose.model("user_cart", new mongoose.Schema({
     cartNumber: Number,
-    month: String,
+    month: Number,
     year: Number,
     default: String
 }))
@@ -11,7 +11,7 @@ const UserCart = mongoose.model("user_cart", new mongoose.Schema({
 function validateUserCart(cart) {
     const schema = Joi.object({
         cartNumber: Joi.number().required(),
-        month: Joi.string().required(),
+        month: Joi.number().required(),
         year: Joi.number().required(),
         default: Joi.string().required()
     })

@@ -6,7 +6,8 @@ const User = mongoose.model('users', new mongoose.Schema({
     lastname: {type: String, required: true},
     email: {type: String, required: true},
     password: {type: String, required: true},
-    role: String,
+    role: {type: String,enum: ["ADMIN","SIMPLE_USER"], default: "ADMIN"},
+    typeAbonemment: {type: String, enum: ["SUPER_ABONEMMENT", "SIMPLE_ABONEMMENT"], default: "SUPER_ABONEMMENT"},
     dateNaissance: {type: Date, required: true},
     sexe: {type: String, required: true},
     createdAt: Date,
@@ -21,6 +22,7 @@ function validateUser(user) {
         email: Joi.string().email().required(),
         password: Joi.string().required(),
         role: Joi.string().allow(''),
+        typeAbonemment: Joi.string().allow(''),
         date_naissance: Joi.string().required(),
         sexe: Joi.string().required()
     })

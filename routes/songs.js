@@ -6,14 +6,20 @@ const { Exception } = require('../error/exception');
 // 403 "Votre abonnement ne permet pas d'accéder à la ressource"
 router.get("/songs",[verifyToken], (req, res, next) => {
     Promise.resolve().then(() => {
-        Song.find().exec()
-        .then(response => {
-            return res.status(200).send({
-                error: false,
-                songs: response
-            })
+        console.log("credential : ",req.app.get("credential"));
+        let credential = req.app.get("credential");
 
-        })
+        if (credential.typeAbonemment && credential.typeAbonemment == "SUPER_ABONEMMENT") {
+            Song.find().exec()
+            .then(response => {
+                return res.status(200).send({
+                    error: false,
+                    songs: response
+                })
+            })
+        } else {
+            next(new Exception(403, "Votre abonnement ne permet pas d'acceder à la resource"));
+        }
     }).catch(() => next(new Exception(500, "Internal Server Error")))
 });
 
@@ -41,7 +47,7 @@ router.get("/songs/:id",[verifyToken], (req, res, next) => {
 router.post('/song/new', [verifyToken], (req, res, next) => {
     Promise.resolve().then(async () => {
         await validateSong(req.body);
-
+        
         await Song.create([{
             name: req.body.name,
             url: req.body.url,

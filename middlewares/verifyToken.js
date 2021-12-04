@@ -14,7 +14,8 @@ exports.verifyToken =  (req,res, next) => {
                     message: "Votre token n'est pas correct"
                 })
             }
-            console.log("decoded : ",decoded);
+            // console.log("decoded : ",decoded);
+            req.app.set("credential", decoded)
             next();
         })
     } else {
